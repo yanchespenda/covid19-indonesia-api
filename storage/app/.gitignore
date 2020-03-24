@@ -1,3 +1,4 @@
 *
 !.gitignore
-!list_location_id.json
+!kabkot.json
+!provinsi.json
