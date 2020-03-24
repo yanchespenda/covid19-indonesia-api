@@ -28,7 +28,7 @@ class OdpPdpBanten {
             'lng' => 105.3577574
         ];
         $data[] = [
-            'kabkot' => 'Kabupaten Pandeglang',
+            'kabkot' => 'Kabupaten Lebak',
             'lat' => -6.6425932,
             'lng' => 105.9144039
         ];
