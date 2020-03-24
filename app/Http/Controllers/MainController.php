@@ -179,6 +179,27 @@ class MainController extends Controller
     public function dataProvinsiPdp(Request $request) {
         $getDataFix = [];
 
+        $getDataBanten = OdpPdpBanten::getInstance()->init()->runPdp()->getPdp();
+        $getLangLat = OdpPdpBanten::getBantenLangLong();
+        if ($getDataBanten) {
+            foreach ($getDataBanten as $key => $value) {
+                $raw = [
+                    'pdp' => $value['pdp'],
+                    'center' => [
+                        'lat' => '',
+                        'lng' => '',
+                    ]
+                ];
+
+                $getLangLatFix = $this->findQueryData($getLangLat, 'kabkot', $value['kabkot'], true);
+                if ($getLangLatFix) {
+                    $raw['center']['lat'] = $getLangLatFix['lat'];
+                    $raw['center']['lng'] = $getLangLatFix['lng'];
+                }
+
+                $getDataFix[$value['kabkot']] = $raw;
+            }
+        }
 
         return response()->json([
             'status' => true,

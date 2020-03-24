@@ -124,7 +124,7 @@ class OdpPdpBanten {
                         $getValX = $valueX->text();
                         if ($getValX != 'JUMLAH' && $getValX != 'TOTAL' && !is_numeric($getValX)) {
                             $row['kabkot'] = $valueX->text();
-                            $row['odp'] = $findNilai[($number * 3) - 1]->text();
+                            $row['pdp'] = $findNilai[($number * 3) - 1]->text();
                             $list[] = $row;
                             $number++;
                         }
