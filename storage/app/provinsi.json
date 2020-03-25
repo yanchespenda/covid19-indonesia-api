@@ -3,50 +3,50 @@
     "id": "11",
     "name": "ACEH",
     "alt_name": "ACEH",
-    "latitude": 4.36855,
-    "longitude": 97.0253
+    "latitude": 4.695135,
+    "longitude": 96.749397
   },
   {
     "id": "12",
     "name": "SUMATERA UTARA",
     "alt_name": "SUMATERA UTARA",
-    "latitude": 2.19235,
-    "longitude": 99.38122
+    "latitude": 2.115355,
+    "longitude": 99.545097
   },
   {
     "id": "13",
     "name": "SUMATERA BARAT",
     "alt_name": "SUMATERA BARAT",
-    "latitude": -1.34225,
-    "longitude": 100.0761
+    "latitude": -0.739940,
+    "longitude": 100.800003
   },
   {
     "id": "14",
     "name": "RIAU",
     "alt_name": "RIAU",
-    "latitude": 0.50041,
-    "longitude": 101.54758
+    "latitude": 0.293347,
+    "longitude": 101.706825
   },
   {
     "id": "15",
     "name": "JAMBI",
     "alt_name": "JAMBI",
-    "latitude": -1.61157,
-    "longitude": 102.7797
+    "latitude": -1.485183,
+    "longitude": 102.438057
   },
   {
     "id": "16",
     "name": "SUMATERA SELATAN",
     "alt_name": "SUMATERA SELATAN",
-    "latitude": -3.12668,
-    "longitude": 104.09306
+    "latitude": -3.319437,
+    "longitude": 103.914398
   },
   {
     "id": "17",
     "name": "BENGKULU",
     "alt_name": "BENGKULU",
-    "latitude": -3.51868,
-    "longitude": 102.53598
+    "latitude": -3.577847,
+    "longitude": 102.346390
   },
   {
     "id": "18",
@@ -59,64 +59,64 @@
     "id": "19",
     "name": "KEPULAUAN BANGKA BELITUNG",
     "alt_name": "KEPULAUAN BANGKA BELITUNG",
-    "latitude": -2.75775,
-    "longitude": 107.58394
+    "latitude": -2.741051,
+    "longitude": 106.440590
   },
   {
     "id": "21",
     "name": "KEPULAUAN RIAU",
     "alt_name": "KEPULAUAN RIAU",
-    "latitude": -0.15478,
-    "longitude": 104.58037
+    "latitude": 3.945651,
+    "longitude": 108.142868
   },
   {
     "id": "31",
     "name": "DKI JAKARTA",
     "alt_name": "DKI JAKARTA",
-    "latitude": -6.1745,
-    "longitude": 106.8227
+    "latitude": -6.175110,
+    "longitude": 106.865036
   },
   {
     "id": "32",
     "name": "JAWA BARAT",
     "alt_name": "JAWA BARAT",
-    "latitude": -6.88917,
-    "longitude": 107.64047
+    "latitude": -7.090911,
+    "longitude": 107.668884
   },
   {
     "id": "33",
     "name": "JAWA TENGAH",
     "alt_name": "JAWA TENGAH",
-    "latitude": -7.30324,
-    "longitude": 110.00441
+    "latitude": -7.150975,
+    "longitude": 110.140259
   },
   {
     "id": "34",
     "name": "DI YOGYAKARTA",
     "alt_name": "DI YOGYAKARTA",
-    "latitude": 7.7956,
-    "longitude": 110.3695
+    "latitude": -7.795580,
+    "longitude": 110.369492
   },
   {
     "id": "35",
     "name": "JAWA TIMUR",
     "alt_name": "JAWA TIMUR",
-    "latitude": -6.96851,
-    "longitude": 113.98005
+    "latitude": -7.536064,
+    "longitude": 112.238403
   },
   {
     "id": "36",
     "name": "BANTEN",
     "alt_name": "BANTEN",
-    "latitude": -6.44538,
-    "longitude": 106.13756
+    "latitude": -6.405817,
+    "longitude": 106.064018
   },
   {
     "id": "51",
     "name": "BALI",
     "alt_name": "BALI",
-    "latitude": -8.23566,
-    "longitude": 115.12239
+    "latitude": -8.340539,
+    "longitude": 115.091949
   },
   {
     "id": "52",
