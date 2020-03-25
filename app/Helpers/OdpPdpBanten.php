@@ -24,43 +24,43 @@ class OdpPdpBanten {
         $data = [];
         $data[] = [
             'kabkot' => 'Kabupaten Pandeglang',
-            'lat' => -6.6181859,
-            'lng' => 105.3577574
+            'lat' => -6.748271,
+            'lng' => 105.688179
         ];
         $data[] = [
             'kabkot' => 'Kabupaten Lebak',
-            'lat' => -6.6425932,
-            'lng' => 105.9144039
+            'lat' => -6.564396,
+            'lng' => 106.252213
         ];
         $data[] = [
             'kabkot' => 'Kabupaten Tangerang',
-            'lat' => -6.1815249,
-            'lng' => 106.3925029
+            'lat' => -6.187210,
+            'lng' => 106.487709
         ];
         $data[] = [
             'kabkot' => 'Kabupaten Serang',
-            'lat' => -6.1062485,
-            'lng' => 105.9777114
+            'lat' => -6.139734,
+            'lng' => 106.040504
         ];
         $data[] = [
             'kabkot' => 'Kota Tangerang',
-            'lat' => -6.1765123,
-            'lng' => 106.5799939
+            'lat' => -6.170540,
+            'lng' => 106.636848
         ];
         $data[] = [
             'kabkot' => 'Kota Cilegon',
-            'lat' => -5.9685002,
-            'lng' => 105.9337864
+            'lat' => -6.002534,
+            'lng' => 106.011124
         ];
         $data[] = [
             'kabkot' => 'Kota Serang',
-            'lat' => -6.1106106,
-            'lng' => 106.1415104
+            'lat' => -6.120540,
+            'lng' => 106.184753
         ];
         $data[] = [
             'kabkot' => 'Kota Tangerang Selatan',
-            'lat' => -6.2954166,
-            'lng' => 106.673293
+            'lat' => -6.342820,
+            'lng' => 106.752670
         ];
         return $data;
     }
