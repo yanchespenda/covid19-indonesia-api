@@ -7,12 +7,21 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+
 use App\Helpers\OdpPdpBanten;
+use App\Helpers\OdpPdpDKIJakarta;
 
 class MainController extends Controller
 {
 
     private $dataLangLat = [];
+
+    private $positifRadius = 500;
+    private $sembuhRadius = 500;
+    private $meninggalRadius = 500;
+
+    private $odpRadius = 250;
+    private $pdpRadius = 250;
     
     /**
      * Create a new controller instance.
@@ -61,7 +70,8 @@ class MainController extends Controller
                 'center' => [
                     'lat' => '',
                     'lng' => '',
-                ]
+                ],
+                'radius' => $this->positifRadius,
             ];
 
             if ($getLangLatProvinsi) {
@@ -93,7 +103,8 @@ class MainController extends Controller
                 'center' => [
                     'lat' => '',
                     'lng' => '',
-                ]
+                ],
+                'radius' => $this->sembuhRadius,
             ];
 
             if ($getLangLatProvinsi) {
@@ -125,7 +136,8 @@ class MainController extends Controller
                 'center' => [
                     'lat' => '',
                     'lng' => '',
-                ]
+                ],
+                'radius' => $this->meninggalRadius,
             ];
 
             if ($getLangLatProvinsi) {
@@ -148,7 +160,7 @@ class MainController extends Controller
 
         /* Provinsi Banten */
         $getDataBanten = OdpPdpBanten::getInstance()->init()->runOdp()->getOdp();
-        $getLangLat = OdpPdpBanten::getBantenLangLong();
+        $getLangLatBanten = OdpPdpBanten::getBantenLangLong();
         if ($getDataBanten) {
             foreach ($getDataBanten as $key => $value) {
                 $raw = [
@@ -156,10 +168,35 @@ class MainController extends Controller
                     'center' => [
                         'lat' => '',
                         'lng' => '',
-                    ]
+                    ],
+                    'radius' => $this->odpRadius,
                 ];
 
-                $getLangLatFix = $this->findQueryData($getLangLat, 'kabkot', $value['kabkot'], true);
+                $getLangLatFix = $this->findQueryData($getLangLatBanten, 'kabkot', $value['kabkot'], true);
+                if ($getLangLatFix) {
+                    $raw['center']['lat'] = $getLangLatFix['lat'];
+                    $raw['center']['lng'] = $getLangLatFix['lng'];
+                }
+
+                $getDataFix[$value['kabkot']] = $raw;
+            }
+        }
+
+        /* Provinsi DKI Jakarta */
+        $getDataJakarta = OdpPdpDKIJakarta::getInstance()->init()->runOdp()->getOdp();
+        $getLangLatJakarta = OdpPdpDKIJakarta::getBantenLangLong();
+        if ($getDataJakarta) {
+            foreach ($getDataJakarta as $key => $value) {
+                $raw = [
+                    'odp' => $value['odp'],
+                    'center' => [
+                        'lat' => '',
+                        'lng' => '',
+                    ],
+                    'radius' => $this->odpRadius,
+                ];
+
+                $getLangLatFix = $this->findQueryData($getLangLatJakarta, 'kabkot', $value['kabkot'], true);
                 if ($getLangLatFix) {
                     $raw['center']['lat'] = $getLangLatFix['lat'];
                     $raw['center']['lng'] = $getLangLatFix['lng'];
@@ -172,13 +209,17 @@ class MainController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix
+            'data' => $getDataFix,
+            /* 'deb' => [
+                'jakarta' => @$getDataJakarta,
+            ] */
         ], 200);
     }
 
     public function dataProvinsiPdp(Request $request) {
         $getDataFix = [];
 
+        /* Provinsi Banten */
         $getDataBanten = OdpPdpBanten::getInstance()->init()->runPdp()->getPdp();
         $getLangLat = OdpPdpBanten::getBantenLangLong();
         if ($getDataBanten) {
@@ -188,7 +229,8 @@ class MainController extends Controller
                     'center' => [
                         'lat' => '',
                         'lng' => '',
-                    ]
+                    ],
+                    'radius' => $this->pdpRadius,
                 ];
 
                 $getLangLatFix = $this->findQueryData($getLangLat, 'kabkot', $value['kabkot'], true);
@@ -201,10 +243,37 @@ class MainController extends Controller
             }
         }
 
+        /* Provinsi DKI Jakarta */
+        $getDataJakarta = OdpPdpDKIJakarta::getInstance()->init()->runPdp()->getPdp();
+        $getLangLatJakarta = OdpPdpDKIJakarta::getBantenLangLong();
+        if ($getDataJakarta) {
+            foreach ($getDataJakarta as $key => $value) {
+                $raw = [
+                    'pdp' => $value['pdp'],
+                    'center' => [
+                        'lat' => '',
+                        'lng' => '',
+                    ],
+                    'radius' => $this->pdpRadius,
+                ];
+
+                $getLangLatFix = $this->findQueryData($getLangLatJakarta, 'kabkot', $value['kabkot'], true);
+                if ($getLangLatFix) {
+                    $raw['center']['lat'] = $getLangLatFix['lat'];
+                    $raw['center']['lng'] = $getLangLatFix['lng'];
+                }
+
+                $getDataFix[$value['kabkot']] = $raw;
+            }
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix
+            'data' => $getDataFix,
+            /* 'deb' => [
+                'jakarta' => @$getDataJakarta,
+            ] */
         ], 200);
     }
 
@@ -292,7 +361,6 @@ class MainController extends Controller
         }
         return $cacheData;
     }
-    /* https://api.kawalcorona.com/indonesia/ */
 
     private function findQueryData($queryData = [], $searchWhat = false, $searchValue = false, $isArray = false) {
 		if (!$searchWhat || !$searchValue) {
