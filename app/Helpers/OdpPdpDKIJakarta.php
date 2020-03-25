@@ -75,7 +75,7 @@ class OdpPdpDKIJakarta {
             foreach ($csv as $key => $value) {
                 $row = [];
                 $dataKota = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[0]);
-                $dataJumlah = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[1]);
+                $dataJumlah = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[4]);
     
                 $row['kabkot'] = $dataKota;
                 $row['odp'] = $dataJumlah;
@@ -101,7 +101,7 @@ class OdpPdpDKIJakarta {
             foreach ($csv as $key => $value) {
                 $row = [];
                 $dataKota = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[0]);
-                $dataJumlah = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[2]);
+                $dataJumlah = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[5]);
     
                 $row['kabkot'] = $dataKota;
                 $row['pdp'] = $dataJumlah;
