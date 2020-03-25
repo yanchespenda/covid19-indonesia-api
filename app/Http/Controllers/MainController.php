@@ -37,22 +37,22 @@ class MainController extends Controller
         $getKasus = $this->getDataIndonesiaCache();
         $getKasusUpdate = Storage::disk('local')->get('last_update.txt');
 
-        $getDataFix = [
+        $dataReturn = [
             'positif' => 0,
             'sembuh' => 0,
             'meninggal' => 0,
             'update' => $getKasusUpdate,
         ];
         if ($getKasus) {
-            $getDataFix['positif'] = $getKasus[0]->positif;
-            $getDataFix['sembuh'] = $getKasus[0]->sembuh;
-            $getDataFix['meninggal'] = $getKasus[0]->meninggal;
+            $dataReturn['positif'] = $getKasus[0]->positif;
+            $dataReturn['sembuh'] = $getKasus[0]->sembuh;
+            $dataReturn['meninggal'] = $getKasus[0]->meninggal;
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix
+            'data' => $dataReturn
         ], 200);
     }
 
@@ -60,7 +60,7 @@ class MainController extends Controller
         $getProvinsi = $this->getDataProvinsiCache();
         $getLangLat = $this->getLangLatProvinsi();
 
-        $getDataFix = [];
+        $dataReturn = [];
         foreach ($getProvinsi as $key => $value) {
             $rawData = $value->attributes;
 
@@ -79,13 +79,13 @@ class MainController extends Controller
                 $raw['center']['lng'] = $getLangLatProvinsi['longitude'];
             }
 
-            $getDataFix[$rawData->Provinsi] = $raw;
+            $dataReturn[$rawData->Provinsi] = $raw;
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix
+            'data' => $dataReturn
         ], 200);
     }
 
@@ -93,7 +93,7 @@ class MainController extends Controller
         $getProvinsi = $this->getDataProvinsiCache();
         $getLangLat = $this->getLangLatProvinsi();
 
-        $getDataFix = [];
+        $dataReturn = [];
         foreach ($getProvinsi as $key => $value) {
             $rawData = $value->attributes;
 
@@ -112,13 +112,13 @@ class MainController extends Controller
                 $raw['center']['lng'] = $getLangLatProvinsi['longitude'];
             }
 
-            $getDataFix[$rawData->Provinsi] = $raw;
+            $dataReturn[$rawData->Provinsi] = $raw;
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix
+            'data' => $dataReturn
         ], 200);
     }
 
@@ -126,7 +126,7 @@ class MainController extends Controller
         $getProvinsi = $this->getDataProvinsiCache();
         $getLangLat = $this->getLangLatProvinsi();
 
-        $getDataFix = [];
+        $dataReturn = [];
         foreach ($getProvinsi as $key => $value) {
             $rawData = $value->attributes;
 
@@ -145,18 +145,18 @@ class MainController extends Controller
                 $raw['center']['lng'] = $getLangLatProvinsi['longitude'];
             }
 
-            $getDataFix[$rawData->Provinsi] = $raw;
+            $dataReturn[$rawData->Provinsi] = $raw;
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix
+            'data' => $dataReturn
         ], 200);
     }
 
     public function dataProvinsiOdp(Request $request) {
-        $getDataFix = [];
+        $dataReturn = [];
 
         /* Provinsi Banten */
         $getDataBanten = OdpPdpBanten::getInstance()->init()->runOdp()->getOdp();
@@ -178,7 +178,7 @@ class MainController extends Controller
                     $raw['center']['lng'] = $getLangLatFix['lng'];
                 }
 
-                $getDataFix[$value['kabkot']] = $raw;
+                $dataReturn[$value['kabkot']] = $raw;
             }
         }
 
@@ -202,14 +202,14 @@ class MainController extends Controller
                     $raw['center']['lng'] = $getLangLatFix['lng'];
                 }
 
-                $getDataFix[$value['kabkot']] = $raw;
+                $dataReturn[$value['kabkot']] = $raw;
             }
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix,
+            'data' => $dataReturn,
             /* 'deb' => [
                 'jakarta' => @$getDataJakarta,
             ] */
@@ -217,7 +217,7 @@ class MainController extends Controller
     }
 
     public function dataProvinsiPdp(Request $request) {
-        $getDataFix = [];
+        $dataReturn = [];
 
         /* Provinsi Banten */
         $getDataBanten = OdpPdpBanten::getInstance()->init()->runPdp()->getPdp();
@@ -239,7 +239,7 @@ class MainController extends Controller
                     $raw['center']['lng'] = $getLangLatFix['lng'];
                 }
 
-                $getDataFix[$value['kabkot']] = $raw;
+                $dataReturn[$value['kabkot']] = $raw;
             }
         }
 
@@ -263,14 +263,14 @@ class MainController extends Controller
                     $raw['center']['lng'] = $getLangLatFix['lng'];
                 }
 
-                $getDataFix[$value['kabkot']] = $raw;
+                $dataReturn[$value['kabkot']] = $raw;
             }
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => $getDataFix,
+            'data' => $dataReturn,
             /* 'deb' => [
                 'jakarta' => @$getDataJakarta,
             ] */
