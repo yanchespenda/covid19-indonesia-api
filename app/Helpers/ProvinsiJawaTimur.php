@@ -163,6 +163,57 @@ class ProvinsiJawaTimur {
             'lat' => -7.0402,
             'lng' => 113.2394
         ];
+
+        $data[] = [
+            'kabkot' => 'Kabupaten Kediri',
+            'lat' => -7.8232,
+            'lng' => 112.1907
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Sidoarjo',
+            'lat' => -7.4726,
+            'lng' => 112.6675
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Tuban',
+            'lat' => -6.8955,
+            'lng' => 112.0298
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Mojokerto',
+            'lat' => -7.4699,
+            'lng' => 112.4351
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Madiun',
+            'lat' => -7.6311,
+            'lng' => 111.53
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Malang',
+            'lat' => -8.2422,
+            'lng' => 112.7152
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Magetan',
+            'lat' => -7.6433,
+            'lng' => 111.356
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Bangkalan',
+            'lat' => -7.0384,
+            'lng' => 112.9137
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Probolinggo',
+            'lat' => -7.8718,
+            'lng' => 113.4776
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Lamongan',
+            'lat' => -7.1269,
+            'lng' => 112.3338
+        ];
         return $data;
     }
 
