@@ -103,7 +103,7 @@ class ProvinsiBanten {
     private function getDataBanten() {
         $cacheName = 'getDataBanten';
         $cacheData = Cache::remember($cacheName, 3600, function () {
-            $endpoint = "https://raw.githubusercontent.com/yanchespenda/covid19-indonesia-datasource-csv/master/provinsi/Banten.csv";
+            $endpoint = "https://raw.githubusercontent.com/yanchespenda/covid19-indonesia-datasource-csv/master/provinsi/hari%20ini/Banten.csv";
             if (($h = fopen($endpoint, "r")) !== FALSE) {
                 $rows = [];
                 $numbers = 1;

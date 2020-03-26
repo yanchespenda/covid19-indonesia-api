@@ -165,7 +165,7 @@ class ProvinsiJawaBarat {
     private function getDataJawaBarat() {
         $cacheName = 'getDataJawaBarat';
         $cacheData = Cache::remember($cacheName, 3600, function () {
-            $endpoint = "https://raw.githubusercontent.com/yanchespenda/covid19-indonesia-datasource-csv/master/provinsi/Jawa%20Barat.csv";
+            $endpoint = "https://raw.githubusercontent.com/yanchespenda/covid19-indonesia-datasource-csv/master/provinsi/hari%20ini/Jawa%20Barat.csv";
             if (($h = fopen($endpoint, "r")) !== FALSE) {
                 $rows = [];
                 $numbers = 1;
