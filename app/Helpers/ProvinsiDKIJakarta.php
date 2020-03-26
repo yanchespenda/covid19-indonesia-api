@@ -3,15 +3,13 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use duzun\hQuery;
 
 use App\Helpers\Universal;
 
-class OdpPdpDKIJakarta {
-    public static $listOdp = [];
-    public static $listPdp = [];
+class ProvinsiDKIJakarta {
+    public static $list = [];
 
     private static $_instance = null;
 
@@ -23,7 +21,7 @@ class OdpPdpDKIJakarta {
         return self::$_instance;
     }
 
-    public static function getBantenLangLong() {
+    public static function getLangLong() {
         $data = [];
         $data[] = [
             'kabkot' => 'Jakarta Pusat',
@@ -67,61 +65,37 @@ class OdpPdpDKIJakarta {
         return $this;
     }
 
-    public function runOdp() {
-
+    public function run() {
         $list = [];
         $csv = $this->getDataDKIJakarta();
         if ($csv) {
             foreach ($csv as $key => $value) {
                 $row = [];
-                $dataKota = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[0]);
-                $dataJumlah = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[4]);
-    
-                $row['kabkot'] = $dataKota;
-                $row['odp'] = $dataJumlah;
-    
+
+                $row['kabkot'] = @Universal::changeSpasi(@$value[0]);
+                $row['positif'] = (int) @Universal::clearSpesialKarakter($value[1]);
+                $row['sembuh'] = (int) @Universal::clearSpesialKarakter($value[2]);
+                $row['meninggal'] = (int) @Universal::clearSpesialKarakter($value[3]);
+                $row['odp'] = (int) @Universal::clearSpesialKarakter($value[4]);
+                $row['pdp'] = (int) @Universal::clearSpesialKarakter($value[5]);
+
                 $list[] = $row;
             }
         }
         
-        self::$listOdp = $list;
+        self::$list = $list;
 
         return $this;
     }
 
-    public function getOdp() {
-        return self::$listOdp;
-    }
-
-    public function runPdp() {
-
-        $list = [];
-        $csv = $this->getDataDKIJakarta();
-        if ($csv) {
-            foreach ($csv as $key => $value) {
-                $row = [];
-                $dataKota = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[0]);
-                $dataJumlah = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value[5]);
-    
-                $row['kabkot'] = $dataKota;
-                $row['pdp'] = $dataJumlah;
-    
-                $list[] = $row;
-            }
-        }
-        self::$listPdp = $list;
-
-        return $this;
-    }
-
-    public function getPdp() {
-        return self::$listPdp;
+    public function get() {
+        return self::$list;
     }
 
     private function getDataDKIJakarta() {
         $cacheName = 'getDataDKIJakarta';
         $cacheData = Cache::remember($cacheName, 3600, function () {
-            $endpoint = "https://raw.githubusercontent.com/yanchespenda/covid19-indonesia-dataset-csv/master/provinsi/DKI%20Jakarta.csv";
+            $endpoint = "https://raw.githubusercontent.com/yanchespenda/covid19-indonesia-datasource-csv/master/provinsi/DKI%20Jakarta.csv";
             if (($h = fopen($endpoint, "r")) !== FALSE) {
                 $rows = [];
                 $numbers = 1;
@@ -132,7 +106,6 @@ class OdpPdpDKIJakarta {
 
                     $numbers++;
                 }
-                Storage::disk('local')->put('csv-odp-pdp/dki-jakarta.csv', $h);
                 fclose($h);
                 return $rows;
             }

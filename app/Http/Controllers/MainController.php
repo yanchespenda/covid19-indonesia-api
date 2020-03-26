@@ -8,20 +8,21 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
-use App\Helpers\OdpPdpBanten;
-use App\Helpers\OdpPdpDKIJakarta;
+use App\Helpers\Universal;
+use App\Helpers\ProvinsiBanten;
+use App\Helpers\ProvinsiDKIJakarta;
+use App\Helpers\ProvinsiJawaBarat;
+use App\Helpers\ProvinsiJawaTengah;
+use App\Helpers\ProvinsiJawaDIYogyakarta;
+// use App\Helpers\ProvinsiJawaTimur;
 
 class MainController extends Controller
 {
 
     private $dataLangLat = [];
 
-    private $positifRadius = 500;
-    private $sembuhRadius = 500;
-    private $meninggalRadius = 500;
-
-    private $odpRadius = 250;
-    private $pdpRadius = 250;
+    private $nasionalRadius = 500;
+    private $provinsiRadius = 750;
     
     /**
      * Create a new controller instance.
@@ -56,7 +57,9 @@ class MainController extends Controller
         ], 200);
     }
 
-    public function dataProvinsiPositif(Request $request) {
+    /* Nasional */
+
+    public function dataNasionalSummary(Request $request) {
         $getProvinsi = $this->getDataProvinsiCache();
         $getLangLat = $this->getLangLatProvinsi();
 
@@ -64,14 +67,49 @@ class MainController extends Controller
         foreach ($getProvinsi as $key => $value) {
             $rawData = $value->attributes;
 
-            $getLangLatProvinsi = $this->findQueryData($getLangLat, 'id', $rawData->Kode_Provi, true);
+            $getLangLatProvinsi = Universal::findQueryData($getLangLat, 'id', $rawData->Kode_Provi, true);
+            $raw = [
+                'positif' => $rawData->Kasus_Posi,
+                'sembuh' => $rawData->Kasus_Semb,
+                'meninggal' => $rawData->Kasus_Meni,
+                'center' => [
+                    'lat' => '',
+                    'lng' => '',
+                ],
+                'radius' => $this->nasionalRadius,
+            ];
+
+            if ($getLangLatProvinsi) {
+                $raw['center']['lat'] = $getLangLatProvinsi['latitude'];
+                $raw['center']['lng'] = $getLangLatProvinsi['longitude'];
+            }
+
+            $dataReturn[$rawData->Provinsi] = $raw;
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+            'data' => $dataReturn
+        ], 200);
+    }
+
+    public function dataNasionalPositif(Request $request) {
+        $getProvinsi = $this->getDataProvinsiCache();
+        $getLangLat = $this->getLangLatProvinsi();
+
+        $dataReturn = [];
+        foreach ($getProvinsi as $key => $value) {
+            $rawData = $value->attributes;
+
+            $getLangLatProvinsi = Universal::findQueryData($getLangLat, 'id', $rawData->Kode_Provi, true);
             $raw = [
                 'positif' => $rawData->Kasus_Posi,
                 'center' => [
                     'lat' => '',
                     'lng' => '',
                 ],
-                'radius' => $this->positifRadius,
+                'radius' => $this->nasionalRadius,
             ];
 
             if ($getLangLatProvinsi) {
@@ -89,7 +127,7 @@ class MainController extends Controller
         ], 200);
     }
 
-    public function dataProvinsiSembuh(Request $request) {
+    public function dataNasionalSembuh(Request $request) {
         $getProvinsi = $this->getDataProvinsiCache();
         $getLangLat = $this->getLangLatProvinsi();
 
@@ -97,14 +135,14 @@ class MainController extends Controller
         foreach ($getProvinsi as $key => $value) {
             $rawData = $value->attributes;
 
-            $getLangLatProvinsi = $this->findQueryData($getLangLat, 'id', $rawData->Kode_Provi, true);
+            $getLangLatProvinsi = Universal::findQueryData($getLangLat, 'id', $rawData->Kode_Provi, true);
             $raw = [
                 'sembuh' => $rawData->Kasus_Semb,
                 'center' => [
                     'lat' => '',
                     'lng' => '',
                 ],
-                'radius' => $this->sembuhRadius,
+                'radius' => $this->nasionalRadius,
             ];
 
             if ($getLangLatProvinsi) {
@@ -122,7 +160,7 @@ class MainController extends Controller
         ], 200);
     }
 
-    public function dataProvinsiMeninggal(Request $request) {
+    public function dataNasionalMeninggal(Request $request) {
         $getProvinsi = $this->getDataProvinsiCache();
         $getLangLat = $this->getLangLatProvinsi();
 
@@ -130,14 +168,14 @@ class MainController extends Controller
         foreach ($getProvinsi as $key => $value) {
             $rawData = $value->attributes;
 
-            $getLangLatProvinsi = $this->findQueryData($getLangLat, 'id', $rawData->Kode_Provi, true);
+            $getLangLatProvinsi = Universal::findQueryData($getLangLat, 'id', $rawData->Kode_Provi, true);
             $raw = [
                 'meninggal' => $rawData->Kasus_Meni,
                 'center' => [
                     'lat' => '',
                     'lng' => '',
                 ],
-                'radius' => $this->meninggalRadius,
+                'radius' => $this->nasionalRadius,
             ];
 
             if ($getLangLatProvinsi) {
@@ -155,85 +193,71 @@ class MainController extends Controller
         ], 200);
     }
 
+
+    /* Provinsi */
+
+    public function dataProvinsiSummary(Request $request) {
+        $indexText = 'all';
+
+        return $this->dataProvinsi($request, $indexText, true);
+    }
+
+    public function dataProvinsiPositif(Request $request) {
+        $indexText = 'positif';
+
+        return $this->dataProvinsi($request, $indexText);
+    }
+
+    public function dataProvinsiSembuh(Request $request) {
+        $indexText = 'sembuh';
+
+        return $this->dataProvinsi($request, $indexText);
+    }
+
+    public function dataProvinsiMeninggal(Request $request) {
+        $indexText = 'meninggal';
+
+        return $this->dataProvinsi($request, $indexText);
+    }
+
     public function dataProvinsiOdp(Request $request) {
-        $dataReturn = [];
+        $indexText = 'odp';
 
-        /* Provinsi Banten */
-        $getDataBanten = OdpPdpBanten::getInstance()->init()->runOdp()->getOdp();
-        $getLangLatBanten = OdpPdpBanten::getBantenLangLong();
-        if ($getDataBanten) {
-            foreach ($getDataBanten as $key => $value) {
-                $raw = [
-                    'odp' => $value['odp'],
-                    'center' => [
-                        'lat' => '',
-                        'lng' => '',
-                    ],
-                    'radius' => $this->odpRadius,
-                ];
-
-                $getLangLatFix = $this->findQueryData($getLangLatBanten, 'kabkot', $value['kabkot'], true);
-                if ($getLangLatFix) {
-                    $raw['center']['lat'] = $getLangLatFix['lat'];
-                    $raw['center']['lng'] = $getLangLatFix['lng'];
-                }
-
-                $dataReturn[$value['kabkot']] = $raw;
-            }
-        }
-
-        /* Provinsi DKI Jakarta */
-        $getDataJakarta = OdpPdpDKIJakarta::getInstance()->init()->runOdp()->getOdp();
-        $getLangLatJakarta = OdpPdpDKIJakarta::getBantenLangLong();
-        if ($getDataJakarta) {
-            foreach ($getDataJakarta as $key => $value) {
-                $raw = [
-                    'odp' => $value['odp'],
-                    'center' => [
-                        'lat' => '',
-                        'lng' => '',
-                    ],
-                    'radius' => $this->odpRadius,
-                ];
-
-                $getLangLatFix = $this->findQueryData($getLangLatJakarta, 'kabkot', $value['kabkot'], true);
-                if ($getLangLatFix) {
-                    $raw['center']['lat'] = $getLangLatFix['lat'];
-                    $raw['center']['lng'] = $getLangLatFix['lng'];
-                }
-
-                $dataReturn[$value['kabkot']] = $raw;
-            }
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Success',
-            'data' => $dataReturn,
-            /* 'deb' => [
-                'jakarta' => @$getDataJakarta,
-            ] */
-        ], 200);
+        return $this->dataProvinsi($request, $indexText);
     }
 
     public function dataProvinsiPdp(Request $request) {
+        $indexText = 'pdp';
+
+        return $this->dataProvinsi($request, $indexText);
+    }
+
+    private function dataProvinsi($request = false, $indexText = '', $isAll = false) {
         $dataReturn = [];
 
         /* Provinsi Banten */
-        $getDataBanten = OdpPdpBanten::getInstance()->init()->runPdp()->getPdp();
-        $getLangLat = OdpPdpBanten::getBantenLangLong();
+        $getDataBanten = ProvinsiBanten::getInstance()->init()->run()->get();
+        $getLangLatBanten = ProvinsiBanten::getLangLong();
         if ($getDataBanten) {
             foreach ($getDataBanten as $key => $value) {
                 $raw = [
-                    'pdp' => $value['pdp'],
                     'center' => [
                         'lat' => '',
                         'lng' => '',
                     ],
-                    'radius' => $this->pdpRadius,
+                    'radius' => $this->provinsiRadius,
                 ];
+                if (!$isAll) {
+                    $raw[$indexText] = $value[$indexText];
+                } else {
+                    $raw['positif'] = $value['positif'];
+                    $raw['sembuh'] = $value['sembuh'];
+                    $raw['meninggal'] = $value['meninggal'];
+                    $raw['odp'] = $value['odp'];
+                    $raw['pdp'] = $value['pdp'];
+                }
 
-                $getLangLatFix = $this->findQueryData($getLangLat, 'kabkot', $value['kabkot'], true);
+                $getLangLatFix = Universal::findQueryData($getLangLatBanten, 'kabkot', $value['kabkot'], true);
                 if ($getLangLatFix) {
                     $raw['center']['lat'] = $getLangLatFix['lat'];
                     $raw['center']['lng'] = $getLangLatFix['lng'];
@@ -244,20 +268,124 @@ class MainController extends Controller
         }
 
         /* Provinsi DKI Jakarta */
-        $getDataJakarta = OdpPdpDKIJakarta::getInstance()->init()->runPdp()->getPdp();
-        $getLangLatJakarta = OdpPdpDKIJakarta::getBantenLangLong();
+        $getDataJakarta = ProvinsiDKIJakarta::getInstance()->init()->run()->get();
+        $getLangLatJakarta = ProvinsiDKIJakarta::getLangLong();
         if ($getDataJakarta) {
             foreach ($getDataJakarta as $key => $value) {
                 $raw = [
-                    'pdp' => $value['pdp'],
                     'center' => [
                         'lat' => '',
                         'lng' => '',
                     ],
-                    'radius' => $this->pdpRadius,
+                    'radius' => $this->provinsiRadius,
                 ];
+                if (!$isAll) {
+                    $raw[$indexText] = $value[$indexText];
+                } else {
+                    $raw['positif'] = $value['positif'];
+                    $raw['sembuh'] = $value['sembuh'];
+                    $raw['meninggal'] = $value['meninggal'];
+                    $raw['odp'] = $value['odp'];
+                    $raw['pdp'] = $value['pdp'];
+                }
 
-                $getLangLatFix = $this->findQueryData($getLangLatJakarta, 'kabkot', $value['kabkot'], true);
+                $getLangLatFix = Universal::findQueryData($getLangLatJakarta, 'kabkot', $value['kabkot'], true);
+                if ($getLangLatFix) {
+                    $raw['center']['lat'] = $getLangLatFix['lat'];
+                    $raw['center']['lng'] = $getLangLatFix['lng'];
+                }
+
+                $dataReturn[$value['kabkot']] = $raw;
+            }
+        }
+
+        /* Provinsi Jawa Barat */
+        $getDataJawaBarat = ProvinsiJawaBarat::getInstance()->init()->run()->get();
+        $getLangLatJawaBarat = ProvinsiJawaBarat::getLangLong();
+        if ($getDataJawaBarat) {
+            foreach ($getDataJawaBarat as $key => $value) {
+                $raw = [
+                    'center' => [
+                        'lat' => '',
+                        'lng' => '',
+                    ],
+                    'radius' => $this->provinsiRadius,
+                ];
+                if (!$isAll) {
+                    $raw[$indexText] = $value[$indexText];
+                } else {
+                    $raw['positif'] = $value['positif'];
+                    $raw['sembuh'] = $value['sembuh'];
+                    $raw['meninggal'] = $value['meninggal'];
+                    $raw['odp'] = $value['odp'];
+                    $raw['pdp'] = $value['pdp'];
+                }
+
+                $getLangLatFix = Universal::findQueryData($getLangLatJawaBarat, 'kabkot', $value['kabkot'], true);
+                if ($getLangLatFix) {
+                    $raw['center']['lat'] = $getLangLatFix['lat'];
+                    $raw['center']['lng'] = $getLangLatFix['lng'];
+                }
+
+                $dataReturn[$value['kabkot']] = $raw;
+            }
+        }
+
+        /* Provinsi Jawa Tengah */
+        $getDataJawaTengah = ProvinsiJawaTengah::getInstance()->init()->run()->get();
+        $getLangLatJawaTengah = ProvinsiJawaTengah::getLangLong();
+        if ($getDataJawaTengah) {
+            foreach ($getDataJawaTengah as $key => $value) {
+                $raw = [
+                    'center' => [
+                        'lat' => '',
+                        'lng' => '',
+                    ],
+                    'radius' => $this->provinsiRadius,
+                ];
+                if (!$isAll) {
+                    $raw[$indexText] = $value[$indexText];
+                } else {
+                    $raw['positif'] = $value['positif'];
+                    $raw['sembuh'] = $value['sembuh'];
+                    $raw['meninggal'] = $value['meninggal'];
+                    $raw['odp'] = $value['odp'];
+                    $raw['pdp'] = $value['pdp'];
+                }
+
+                $getLangLatFix = Universal::findQueryData($getLangLatJawaTengah, 'kabkot', $value['kabkot'], true);
+                if ($getLangLatFix) {
+                    $raw['center']['lat'] = $getLangLatFix['lat'];
+                    $raw['center']['lng'] = $getLangLatFix['lng'];
+                }
+
+                $dataReturn[$value['kabkot']] = $raw;
+            }
+        }
+
+        /* Provinsi DIYogyakarta */
+        $getDataDIYogyakarta = ProvinsiJawaDIYogyakarta::getInstance()->init()->run()->get();
+        $getLangLatDIYogyakarta = ProvinsiJawaDIYogyakarta::getLangLong();
+        if ($getDataDIYogyakarta) {
+            foreach ($getDataDIYogyakarta as $key => $value) {
+                $raw = [
+                    'center' => [
+                        'lat' => '',
+                        'lng' => '',
+                    ],
+                    'radius' => $this->provinsiRadius,
+                ];
+                if (!$isAll) {
+                    $raw[$indexText] = $value[$indexText];
+                } else {
+                    $raw['positif'] = $value['positif'];
+                    $raw['sembuh'] = $value['sembuh'];
+                    $raw['meninggal'] = $value['meninggal'];
+                    $raw['odp'] = $value['odp'];
+                    $raw['pdp'] = $value['pdp'];
+                }
+
+                $getLangLatFix = Universal::findQueryData($getLangLatDIYogyakarta, 'kabkot', $value['kabkot'], true);
                 if ($getLangLatFix) {
                     $raw['center']['lat'] = $getLangLatFix['lat'];
                     $raw['center']['lng'] = $getLangLatFix['lng'];
@@ -271,11 +399,10 @@ class MainController extends Controller
             'status' => true,
             'message' => 'Success',
             'data' => $dataReturn,
-            /* 'deb' => [
-                'jakarta' => @$getDataJakarta,
-            ] */
         ], 200);
     }
+
+    /* Lainnya */
 
     private function getLangLatProvinsi() {
         $preData = Storage::disk('local')->get('provinsi.json');
@@ -362,23 +489,5 @@ class MainController extends Controller
         return $cacheData;
     }
 
-    private function findQueryData($queryData = [], $searchWhat = false, $searchValue = false, $isArray = false) {
-		if (!$searchWhat || !$searchValue) {
-			return false;
-		}
-		if (count($queryData) > 0) {
-			foreach($queryData as $key => $value) {
-				if ($isArray) {
-					if ($value[$searchWhat] == $searchValue) {
-						return $value;
-					}
-				} else {
-					if ($value->{$searchWhat} == $searchValue) {
-						return $value;
-					}
-				}
-			}
-		}
-		return false;
-	}
+    
 }
