@@ -14,7 +14,7 @@ use App\Helpers\ProvinsiDKIJakarta;
 use App\Helpers\ProvinsiJawaBarat;
 use App\Helpers\ProvinsiJawaTengah;
 use App\Helpers\ProvinsiJawaDIYogyakarta;
-// use App\Helpers\ProvinsiJawaTimur;
+use App\Helpers\ProvinsiJawaTimur;
 
 class MainController extends Controller
 {
@@ -386,6 +386,38 @@ class MainController extends Controller
                 }
 
                 $getLangLatFix = Universal::findQueryData($getLangLatDIYogyakarta, 'kabkot', $value['kabkot'], true);
+                if ($getLangLatFix) {
+                    $raw['center']['lat'] = $getLangLatFix['lat'];
+                    $raw['center']['lng'] = $getLangLatFix['lng'];
+                }
+
+                $dataReturn[$value['kabkot']] = $raw;
+            }
+        }
+
+        /* Provinsi Jawa Timur */
+        $getDataJawaTimur = ProvinsiJawaTimur::getInstance()->init()->run()->get();
+        $getLangLatJawaTimur = ProvinsiJawaTimur::getLangLong();
+        if ($getDataJawaTimur) {
+            foreach ($getDataJawaTimur as $key => $value) {
+                $raw = [
+                    'center' => [
+                        'lat' => '',
+                        'lng' => '',
+                    ],
+                    'radius' => $this->provinsiRadius,
+                ];
+                if (!$isAll) {
+                    $raw[$indexText] = $value[$indexText];
+                } else {
+                    $raw['positif'] = $value['positif'];
+                    $raw['sembuh'] = $value['sembuh'];
+                    $raw['meninggal'] = $value['meninggal'];
+                    $raw['odp'] = $value['odp'];
+                    $raw['pdp'] = $value['pdp'];
+                }
+
+                $getLangLatFix = Universal::findQueryData($getLangLatJawaTimur, 'kabkot', $value['kabkot'], true);
                 if ($getLangLatFix) {
                     $raw['center']['lat'] = $getLangLatFix['lat'];
                     $raw['center']['lng'] = $getLangLatFix['lng'];

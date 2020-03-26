@@ -24,9 +24,144 @@ class ProvinsiJawaTimur {
     public static function getLangLong() {
         $data = [];
         $data[] = [
-            'kabkot' => '',
-            'lat' => 0,
-            'lng' => 0
+            'kabkot' => 'Kabupaten Blitar',
+            'lat' => -8.0955,
+            'lng' => 112.1609
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Tulungagung',
+            'lat' => -8.0912,
+            'lng' => 111.9642
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Trenggalek',
+            'lat' => -8.1824,
+            'lng' => 111.6184
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Bojonegoro',
+            'lat' => -7.3175,
+            'lng' => 111.7615
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Situbondo',
+            'lat' => -7.7889,
+            'lng' => 114.1915
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Batu',
+            'lat' => -7.8831,
+            'lng' => 112.5334
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Surabaya',
+            'lat' => -7.2575,
+            'lng' => 112.7521
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Blitar',
+            'lat' => -8.0955,
+            'lng' => 112.1609
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Probolinggo',
+            'lat' => -7.7764,
+            'lng' => 113.2037
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Nganjuk',
+            'lat' => -7.5944,
+            'lng' => 111.9046
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Kediri',
+            'lat' => -7.848,
+            'lng' => 112.0178
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Lumajang',
+            'lat' => -8.0944,
+            'lng' => 113.1442
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Banyuwangi',
+            'lat' => -8.2191,
+            'lng' => 114.3691
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Jember',
+            'lat' => -8.1845,
+            'lng' => 113.6681
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Malang',
+            'lat' => -8.2422,
+            'lng' => 112.7152
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Ponorogo',
+            'lat' => -7.8651,
+            'lng' => 111.4696
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Pacitan',
+            'lat' => -8.1263,
+            'lng' => 111.1414
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Pamekasan',
+            'lat' => -7.1051,
+            'lng' => 113.5252
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Madiun',
+            'lat' => -7.6093,
+            'lng' => 111.6184
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Pasuruan',
+            'lat' => -7.6469,
+            'lng' => 112.8999
+        ];
+        $data[] = [
+            'kabkot' => 'Kota Mojokerto',
+            'lat' => -7.4705,
+            'lng' => 112.4401
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Bondowoso',
+            'lat' => -7.9674,
+            'lng' => 113.9061
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Sumenep',
+            'lat' => -6.9254,
+            'lng' => 113.9061
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Ngawi',
+            'lat' => -7.461,
+            'lng' => 111.3322
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Pasuruan',
+            'lat' => -7.786,
+            'lng' => 112.8582
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Gresik',
+            'lat' => -7.155,
+            'lng' => 112.5722
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Jombang',
+            'lat' => -7.5741,
+            'lng' => 112.2861
+        ];
+        $data[] = [
+            'kabkot' => 'Kabupaten Sampang',
+            'lat' => -7.0402,
+            'lng' => 113.2394
         ];
         return $data;
     }
