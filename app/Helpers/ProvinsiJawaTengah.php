@@ -218,7 +218,7 @@ class ProvinsiJawaTengah {
             foreach ($csv as $key => $value) {
                 $row = [];
 
-                $row['kabkot'] = (int) @Universal::changeSpasi(@$value[0]);
+                $row['kabkot'] = @Universal::changeSpasi(@$value[0]);
                 $row['positif'] = (int) @Universal::clearSpesialKarakter($value[1]);
                 $row['sembuh'] = (int) @Universal::clearSpesialKarakter($value[2]);
                 $row['meninggal'] = (int) @Universal::clearSpesialKarakter($value[3]);
