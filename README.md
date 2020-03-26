@@ -1,3 +1,36 @@
+## API Covid 19 Indonesia
+### Route
+- /kasus
+- /positif
+- /sembuh
+- /meninggal
+- /odp
+- /pdp
+
+### Bentuk Respon API
+```
+{
+    'status': true|false,
+    'message': 'Success'|'Failed',
+    'data': 'Array data'
+}
+```
+
+Contoh data
+```
+{
+    '#Wilayah#': {
+        'positif|sembuh|meninggal|odp|pdp': 0,
+        'center': {
+            'lat': 'Kordinat Lat (Bentuk double)',
+            'lng': 'Kordinat Lng (Bentuk double)'
+        },
+        'radius': 'Nilai radius untuk besaran bulatan di google maps nya (Bentuk integer)'
+    }
+}
+```
+
+
 # Lumen PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
