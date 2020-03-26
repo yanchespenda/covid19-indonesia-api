@@ -124,8 +124,13 @@ class OdpPdpDKIJakarta {
             $endpoint = "https://raw.githubusercontent.com/yanchespenda/covid19-indonesia-dataset-csv/master/provinsi/DKI%20Jakarta.csv";
             if (($h = fopen($endpoint, "r")) !== FALSE) {
                 $rows = [];
+                $numbers = 1;
                 while (($data = fgetcsv($h, 1000, ",")) !== FALSE) {
-                    $rows[] = $data;
+                    if ($numbers != 1) {
+                        $rows[] = $data;
+                    }
+
+                    $numbers++;
                 }
                 Storage::disk('local')->put('csv-odp-pdp/dki-jakarta.csv', $h);
                 fclose($h);
