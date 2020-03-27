@@ -49,9 +49,9 @@ class ProvinsiDKIJakarta {
             'lng' => 106.866463
         ];
         $data[] = [
-            'kabkot' => 'Kepulauan Seribu',
-            'lat' => -5.594460,
-            'lng' => 106.559002
+            'kabkot' => 'Kabupaten Administrasi Kepulauan Seribu',
+            'lat' => -5.6122,
+            'lng' => 106.617
         ];
         return $data;
     }
