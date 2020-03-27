@@ -224,6 +224,7 @@ class ProvinsiJawaTengah {
                 $row['meninggal'] = (int) @Universal::clearSpesialKarakter($value[3]);
                 $row['odp'] = (int) @Universal::clearSpesialKarakter($value[4]);
                 $row['pdp'] = (int) @Universal::clearSpesialKarakter($value[5]);
+                $row['update'] = @Universal::clearSpesialKarakter($value[6]);
 
                 $list[] = $row;
             }

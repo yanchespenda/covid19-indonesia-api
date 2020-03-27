@@ -36,7 +36,7 @@ class MainController extends Controller
 
     public function dataKasus(Request $request) {
         $getKasus = $this->getDataIndonesiaCache();
-        $getKasusUpdate = Storage::disk('local')->get('last_update.txt');
+        $getKasusUpdate = Storage::disk('local')->get('terakhir_update.txt');
 
         $dataReturn = [
             'positif' => 0,
@@ -246,6 +246,7 @@ class MainController extends Controller
                         'lng' => '',
                     ],
                     'radius' => $this->provinsiRadius,
+                    'terakhir_update' => $value['update']
                 ];
                 if (!$isAll) {
                     $raw[$indexText] = $value[$indexText];
@@ -278,6 +279,7 @@ class MainController extends Controller
                         'lng' => '',
                     ],
                     'radius' => $this->provinsiRadius,
+                    'terakhir_update' => $value['update']
                 ];
                 if (!$isAll) {
                     $raw[$indexText] = $value[$indexText];
@@ -310,6 +312,7 @@ class MainController extends Controller
                         'lng' => '',
                     ],
                     'radius' => $this->provinsiRadius,
+                    'terakhir_update' => $value['update']
                 ];
                 if (!$isAll) {
                     $raw[$indexText] = $value[$indexText];
@@ -342,6 +345,7 @@ class MainController extends Controller
                         'lng' => '',
                     ],
                     'radius' => $this->provinsiRadius,
+                    'terakhir_update' => $value['update']
                 ];
                 if (!$isAll) {
                     $raw[$indexText] = $value[$indexText];
@@ -374,6 +378,7 @@ class MainController extends Controller
                         'lng' => '',
                     ],
                     'radius' => $this->provinsiRadius,
+                    'terakhir_update' => $value['update']
                 ];
                 if (!$isAll) {
                     $raw[$indexText] = $value[$indexText];
@@ -406,6 +411,7 @@ class MainController extends Controller
                         'lng' => '',
                     ],
                     'radius' => $this->provinsiRadius,
+                    'terakhir_update' => $value['update']
                 ];
                 if (!$isAll) {
                     $raw[$indexText] = $value[$indexText];
@@ -479,7 +485,7 @@ class MainController extends Controller
         $cacheName = 'getDataIndonesiaCache';
         $cacheData = Cache::remember($cacheName, 3600, function () {
             $getData = $this->getDataIndonesia();
-            Storage::disk('local')->put('last_update.txt', Carbon::now('Asia/Jakarta'));
+            Storage::disk('local')->put('terakhir_update.txt', Carbon::now('Asia/Jakarta'));
             if ($getData['status']) {
                 return $getData['data'];
             }
